@@ -1,0 +1,10 @@
+2026-06-20 09:00:01.001 [AuthService] INFO - User login successful for user_id=4521
+2026-06-20 09:00:05.214 [PaymentService] INFO - Payment initiated for order_id=8821
+2026-06-20 09:00:07.300 [PaymentService] ERROR - Failed to process transaction txn_8821
+2026-06-20 09:00:09.450 [InventoryService] WARN - Stock low for item_id=332
+2026-06-20 09:00:12.880 [AuthService] ERROR - Invalid token for user_id=9981
+2026-06-20 09:00:15.120 [OrderService] INFO - Order created order_id=8822
+2026-06-20 09:00:18.500 [PaymentService] WARN - Retry attempt 1 for transaction txn_8825
+this line is broken and does not match the format
+2026-06-20 09:00:22.670 [InventoryService] ERROR - Out of stock for item_id=119
+2026-06-20 09:00:25.900 [OrderService] INFO - Order shipped order_id=8820

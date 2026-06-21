@@ -1,11 +1,9 @@
-package domain;
+package com.log_monitoring.log_alert_system.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity

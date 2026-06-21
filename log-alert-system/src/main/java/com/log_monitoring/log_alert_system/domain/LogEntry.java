@@ -1,6 +1,6 @@
-package domain;
+package com.log_monitoring.log_alert_system.domain;
 
-import enums.LogLevelEnum;
+import com.log_monitoring.log_alert_system.enums.LogLevelEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LogLevel {
+public class LogEntry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

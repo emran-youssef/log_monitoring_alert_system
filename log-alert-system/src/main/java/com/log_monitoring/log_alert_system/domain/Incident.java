@@ -1,6 +1,6 @@
-package domain;
+package com.log_monitoring.log_alert_system.domain;
 
-import enums.IncidentStatus;
+import com.log_monitoring.log_alert_system.enums.IncidentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package domain;
+package com.log_monitoring.log_alert_system.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
