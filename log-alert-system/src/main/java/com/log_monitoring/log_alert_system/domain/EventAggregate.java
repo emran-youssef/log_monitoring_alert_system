@@ -22,11 +22,8 @@ public class EventAggregate {
     @Column(nullable = false, length = 100)
     private String pattern;
 
-    @Column(nullable = false, length = 10)
-    private String severity;
-
-    @Column(nullable = false)
-    private Long count;
+    @Column(name = "event_count", nullable = false)
+    private Long eventCount;
 
     @Column(name = "window_start", nullable = false)
     private LocalDateTime windowStart;

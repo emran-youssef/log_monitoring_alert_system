@@ -23,6 +23,8 @@ import java.util.regex.Pattern;
 public class LogMonitoringService {
 
     private final LogEntryRepository logEntryRepository;
+    private final ClassificationService classificationService;
+    private final EventAggregateService aggregateService;
 
     @Value("${log.file.path}")
     private String filePath;
@@ -35,14 +37,12 @@ public class LogMonitoringService {
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
     private Long lastPosition = 0L;
-
     public void tailLogFile() {
         try {
             long currentLength = Files.size(Paths.get(filePath));
 
-            if (lastPosition > currentLength) {
+            if (lastPosition > currentLength)
                 lastPosition = 0L;
-            }
 
             try (RandomAccessFile reader = new RandomAccessFile(filePath, "r")) {
                 reader.seek(lastPosition);  //skips lines we already read, and jump to where we stopped last time
@@ -83,10 +83,17 @@ public class LogMonitoringService {
                 .build();
     }
 
+    // parse then save
     private void handleLine(String line) {
         LogEntry entry = parseLogEntry(line);
-        if(entry != null)
-           logEntryRepository.save(entry);
+        if(entry != null) {
+            //classify the line to what category
+            String pattern = classificationService.classify(entry.getMessage());
+            entry.setPattern(pattern);
+            logEntryRepository.save(entry);
+            aggregateService.aggregate(entry);
+
+        }
     }
 
 }

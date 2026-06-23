@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
@@ -26,3 +26,15 @@ log:
     path: logs/app.log
   monitoring:
     fixed-delay: 5000
+
+classification:
+  window-minutes: 5
+  patterns:
+    # --- Active categories ---
+    WALLET_NOT_FOUND: "walletnotfoundexception"
+    USER_NOT_FOUND: "usernotfoundexception"
+    TRANSACTION_NOT_FOUND: "transactionnotfoundexception"
+    EMAIL_ALREADY_EXISTS: "emailalreadyexistexception"
+    SAME_WALLET_TRANSFER: "samewallettransferexception"
+    VALIDATION_FAILURE: "methodargumentnotvalidexception"
+    INTERNAL_ERROR: "exception"

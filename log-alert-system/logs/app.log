@@ -1,10 +1,11 @@
-2026-06-20 09:00:01.001 [AuthService] INFO - User login successful for user_id=4521
-2026-06-20 09:00:05.214 [PaymentService] INFO - Payment initiated for order_id=8821
-2026-06-20 09:00:07.300 [PaymentService] ERROR - Failed to process transaction txn_8821
-2026-06-20 09:00:09.450 [InventoryService] WARN - Stock low for item_id=332
-2026-06-20 09:00:12.880 [AuthService] ERROR - Invalid token for user_id=9981
-2026-06-20 09:00:15.120 [OrderService] INFO - Order created order_id=8822
-2026-06-20 09:00:18.500 [PaymentService] WARN - Retry attempt 1 for transaction txn_8825
+2026-06-20 09:00:01.001 [wallet-service] INFO - User login successful for user_id=4521
+2026-06-20 09:00:05.214 [wallet-service] ERROR - WalletNotFoundException: wallet with id 42 not found
+2026-06-20 09:00:07.300 [wallet-service] ERROR - UserNotFoundException: no user found with email test@example.com
+2026-06-20 09:00:09.450 [wallet-service] WARN - TransactionNotFoundException: transaction id=9921 does not exist
+2026-06-20 09:00:12.880 [wallet-service] ERROR - EmailAlreadyExistException: email john@example.com is already registered
+2026-06-20 09:00:15.120 [wallet-service] ERROR - SameWalletTransferException: source and destination wallet are the same
+2026-06-20 09:00:18.500 [wallet-service] ERROR - MethodArgumentNotValidException: field 'amount' must be greater than zero
 this line is broken and does not match the format
-2026-06-20 09:00:22.670 [InventoryService] ERROR - Out of stock for item_id=119
-2026-06-20 09:00:25.900 [OrderService] INFO - Order shipped order_id=8820
+2026-06-20 09:00:22.670 [wallet-service] ERROR - An unexpected Exception occurred during processing
+2026-06-20 09:00:25.900 [wallet-service] INFO - Transfer completed successfully from wallet 12 to wallet 34
+2026-06-20 09:00:28.100 [wallet-service] ERROR - WalletNotFoundException: wallet with id 99 not found
