@@ -30,11 +30,24 @@ log:
 classification:
   window-minutes: 5
   patterns:
-    # --- Active categories ---
-    WALLET_NOT_FOUND: "walletnotfoundexception"
-    USER_NOT_FOUND: "usernotfoundexception"
-    TRANSACTION_NOT_FOUND: "transactionnotfoundexception"
-    EMAIL_ALREADY_EXISTS: "emailalreadyexistexception"
-    SAME_WALLET_TRANSFER: "samewallettransferexception"
-    VALIDATION_FAILURE: "methodargumentnotvalidexception"
-    INTERNAL_ERROR: "exception"
+    WALLET_NOT_FOUND:
+      keyword: "walletnotfoundexception"
+      threshold: 3
+    USER_NOT_FOUND:
+      keyword: "usernotfoundexception"
+      threshold: 3
+    TRANSACTION_NOT_FOUND:
+      keyword: "transactionnotfoundexception"
+      threshold: 3
+    EMAIL_ALREADY_EXISTS:
+      keyword: "emailalreadyexistexception"
+      threshold: 5
+    SAME_WALLET_TRANSFER:
+      keyword: "samewallettransferexception"
+      threshold: 5
+    VALIDATION_FAILURE:
+      keyword: "methodargumentnotvalidexception"
+      threshold: 10
+    INTERNAL_ERROR:
+      keyword: "exception"
+      threshold: 2

@@ -9,3 +9,4 @@ this line is broken and does not match the format
 2026-06-20 09:00:22.670 [wallet-service] ERROR - An unexpected Exception occurred during processing
 2026-06-20 09:00:25.900 [wallet-service] INFO - Transfer completed successfully from wallet 12 to wallet 34
 2026-06-20 09:00:28.100 [wallet-service] ERROR - WalletNotFoundException: wallet with id 99 not found
+2026-06-20 09:01:00.000 [wallet-service] ERROR - An unexpected Exception occurred again

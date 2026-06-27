@@ -1,11 +1,14 @@
 package com.log_monitoring.log_alert_system.services;
 
 import com.log_monitoring.log_alert_system.config.ClassificationProperties;
+import com.log_monitoring.log_alert_system.config.PatternConfig;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ClassificationService {
@@ -18,8 +21,9 @@ public class ClassificationService {
 
         String lowerMessage = message.toLowerCase();
 
-        for(Map.Entry<String, String> entry: properties.getPatterns().entrySet()){
-            if(lowerMessage.contains(entry.getValue())){
+        for(Map.Entry<String, PatternConfig> entry: properties.getPatterns().entrySet()){
+            if(lowerMessage.contains(entry.getValue().getKeyword())){
+                log.debug("Classified message as pattern={}", entry.getKey());
                 return entry.getKey();
             }
         }

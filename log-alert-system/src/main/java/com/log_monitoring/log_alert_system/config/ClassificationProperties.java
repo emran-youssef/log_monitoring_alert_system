@@ -14,5 +14,5 @@ import java.util.LinkedHashMap;
 @Setter
 public class ClassificationProperties {
 
-    private LinkedHashMap<String, String> patterns = new LinkedHashMap<>();
+    private LinkedHashMap<String, PatternConfig> patterns = new LinkedHashMap<>();
 }

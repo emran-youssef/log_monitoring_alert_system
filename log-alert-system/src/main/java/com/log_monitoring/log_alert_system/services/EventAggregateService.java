@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class EventAggregateService {
     private final EventAggregateRepository eventAggregateRepository;
+    private final AlertService alertService;
 
     @Value("${classification.window-minutes}")
     private int windowMinutes;
@@ -28,7 +29,7 @@ public class EventAggregateService {
         LocalDateTime windowStart = calculateWindowStart(entry.getTimestamp());
         LocalDateTime windowEnd = windowStart.plusMinutes(windowMinutes);
 
-        EventAggregate aggregate = eventAggregateRepository.findByPatternAndWindowStart(entry.getPattern(), windowStart)   // to get counting
+        EventAggregate event = eventAggregateRepository.findByPatternAndWindowStart(entry.getPattern(), windowStart)   // to get counting
                 .orElseGet(()-> EventAggregate.builder()
                         .pattern(entry.getPattern())
                         .windowStart(windowStart)
@@ -36,8 +37,10 @@ public class EventAggregateService {
                         .eventCount(0L)
                         .build());
 
-        aggregate.setEventCount(aggregate.getEventCount() + 1);
-        eventAggregateRepository.save(aggregate);
+        event.setEventCount(event.getEventCount() + 1);
+        log.debug("Event pattern={} count={} windowStart={}", entry.getPattern(), event.getEventCount(), windowStart);
+        alertService.checkAndAlert(event);
+        eventAggregateRepository.save(event);
 
     }
 
