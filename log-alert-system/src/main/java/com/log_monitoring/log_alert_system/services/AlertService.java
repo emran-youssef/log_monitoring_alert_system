@@ -6,11 +6,13 @@ import com.log_monitoring.log_alert_system.domain.Alert;
 import com.log_monitoring.log_alert_system.domain.EventAggregate;
 import com.log_monitoring.log_alert_system.domain.LogEntry;
 import com.log_monitoring.log_alert_system.repositories.AlertRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -58,5 +60,16 @@ public class AlertService {
         log.info("Incident opened for alert:{}", alert.getPattern());
         incidentService.openIncident(alert);
 
+    }
+
+
+    @Transactional
+    public Optional<Alert> resolveAlert(Long id){
+        return alertRepository.findById(id)
+                .map(alert -> {
+                    alert.setActive(false);
+                    alert.setResolvedAt(LocalDateTime.now());
+                    return alertRepository.save(alert);
+                });
     }
 }
