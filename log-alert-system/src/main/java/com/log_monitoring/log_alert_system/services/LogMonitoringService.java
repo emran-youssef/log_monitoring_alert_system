@@ -26,15 +26,66 @@ public class LogMonitoringService {
     private final ClassificationService classificationService;
     private final EventAggregateService aggregateService;
 
-    @Value("${log.file.path}")
-    private String filePath;
 
-    // Log pattern 4 groups: timestamp, service, level, message
+    /// Log pattern 4 groups: timestamp, level, service (logger name), message
     private static final Pattern LOG_PATTERN = Pattern
-            .compile("^(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\.\\d{3}) \\[(.+?)] (INFO|WARN|ERROR) - (.+)$");
+            .compile("^(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?) \\[.+?] (INFO|WARN|ERROR)\\s+(\\S+)\\s+-\\s+(.+)$");
 
     private static final DateTimeFormatter TIMESTAMP_FORMAT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+
+
+    public LogEntry parseLogEntry(String line){
+
+        // Remove trailing \r\n or \n
+        line = line.replaceAll("\\r?\\n$", "");
+
+        Matcher matcher = LOG_PATTERN.matcher(line);
+
+        if(!matcher.matches()) {
+            log.warn("Skipping unparseable log line: {}", line);
+            return null;
+        }
+
+        String rawTimestamp = matcher.group(1);
+        if (!rawTimestamp.contains(".")) {
+            rawTimestamp = rawTimestamp + ".000";   // pad missing milliseconds so formatter still parses
+        }
+
+        // need to parse because the log file gives us plain text, but the database needs structured data.
+        LocalDateTime timestamp = LocalDateTime.parse(rawTimestamp, TIMESTAMP_FORMAT);
+        LogLevelEnum level = LogLevelEnum.valueOf(matcher.group(2));
+        String service = matcher.group(3);
+        String message = matcher.group(4);
+
+        return LogEntry.builder()
+                .sourceService(service)
+                .logLevel(level)
+                .message(message)
+                .timestamp(timestamp)
+                .build();
+    }
+
+    // parse then save
+    public void handleLine(String line) {
+        LogEntry entry = parseLogEntry(line);
+        if(entry != null) {
+            //classify the line to what category
+            String pattern = classificationService.classify(entry.getMessage());
+            entry.setPattern(pattern);
+            logEntryRepository.save(entry);
+            aggregateService.aggregate(entry);
+
+        }
+    }
+
+
+
+    /* this was for testing
+
+    @Value("${log.file.path}")
+    private String filePath;
+
 
     private Long lastPosition = 0L;
     public void tailLogFile() {
@@ -61,39 +112,8 @@ public class LogMonitoringService {
         }
     }
 
-    public LogEntry parseLogEntry(String line){
-        Matcher matcher = LOG_PATTERN.matcher(line);
+     */
 
-        if(!matcher.matches()) {
-            log.warn("Skipping unparseable log line: {}", line);
-            return null;
-        }
 
-        // need to parse because the log file gives us plain text, but the database needs structured data.
-        LocalDateTime timestamp = LocalDateTime.parse(matcher.group(1), TIMESTAMP_FORMAT);
-        String service = matcher.group(2);
-        LogLevelEnum level = LogLevelEnum.valueOf(matcher.group(3));
-        String message = matcher.group(4);
-
-        return LogEntry.builder()
-                .sourceService(service)
-                .logLevel(level)
-                .message(message)
-                .timestamp(timestamp)
-                .build();
-    }
-
-    // parse then save
-    private void handleLine(String line) {
-        LogEntry entry = parseLogEntry(line);
-        if(entry != null) {
-            //classify the line to what category
-            String pattern = classificationService.classify(entry.getMessage());
-            entry.setPattern(pattern);
-            logEntryRepository.save(entry);
-            aggregateService.aggregate(entry);
-
-        }
-    }
 
 }

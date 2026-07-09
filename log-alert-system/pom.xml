@@ -44,7 +44,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-
         <!-- Lombok: eliminates boilerplate — @Getter, @Setter, @Builder, @NoArgsConstructor -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -69,6 +68,12 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-mysql</artifactId>
+        </dependency>
+
+        <!-- kafka -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-kafka</artifactId>
         </dependency>
 
     </dependencies>

@@ -21,6 +21,14 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
 
+  kafka:
+    bootstrap-servers: localhost:9092   # where Kafka broker lives (same broker Wallet app uses)
+    consumer:
+      group-id: log-alert-system        # this app's consumer group name; Kafka tracks read progress per group
+      auto-offset-reset: earliest       # if no saved progress yet, start reading from the beginning of the topic
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer    # log lines have no key, but Kafka still needs a deserializer type
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  # log line itself is plain text, so read it as a String
+
 log:
   file:
     path: logs/app.log
@@ -51,3 +59,15 @@ classification:
     INTERNAL_ERROR:
       keyword: "exception"
       threshold: 2
+
+server:
+  port: 8081
+
+
+logging:
+  level:
+    com:
+      log_monitoring:
+        log_alert_system:
+          services:
+            LogKafkaConsumer: DEBUG

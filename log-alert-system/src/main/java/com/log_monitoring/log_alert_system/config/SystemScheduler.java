@@ -10,7 +10,7 @@ import com.log_monitoring.log_alert_system.services.LogMonitoringService;
 @Component
 @RequiredArgsConstructor
 public class SystemScheduler {
-
+/*
     private final LogMonitoringService logMonitoringService;
 
     @Scheduled(fixedDelayString = "${log.monitoring.fixed-delay}") //log.monitoring.fixed-delay pulled from yaml
@@ -18,4 +18,6 @@ public class SystemScheduler {
         log.info("Scanning log file...");
         logMonitoringService.tailLogFile();
     }
+
+ */
 }
