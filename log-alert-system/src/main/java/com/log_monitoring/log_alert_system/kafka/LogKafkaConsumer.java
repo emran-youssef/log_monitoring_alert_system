@@ -1,5 +1,6 @@
-package com.log_monitoring.log_alert_system.services;
+package com.log_monitoring.log_alert_system.kafka;
 
+import com.log_monitoring.log_alert_system.services.LogMonitoringService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;

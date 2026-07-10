@@ -5,6 +5,7 @@ import com.log_monitoring.log_alert_system.config.PatternConfig;
 import com.log_monitoring.log_alert_system.domain.Alert;
 import com.log_monitoring.log_alert_system.domain.EventAggregate;
 import com.log_monitoring.log_alert_system.domain.LogEntry;
+import com.log_monitoring.log_alert_system.kafka.AlertEventPublisher;
 import com.log_monitoring.log_alert_system.repositories.AlertRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class AlertService {
     private final AlertRepository alertRepository;
     private final IncidentService incidentService;
     private final ClassificationProperties classificationProperties;
+    private final AlertEventPublisher alertEventPublisher;
 
 
     public void checkAndAlert(EventAggregate event){
@@ -58,7 +60,12 @@ public class AlertService {
         alertRepository.save(alert);
 
         log.info("Incident opened for alert:{}", alert.getPattern());
+
+        alertEventPublisher.publish(alert);  // publish the event to kafka
+
         incidentService.openIncident(alert);
+
+
 
     }
 

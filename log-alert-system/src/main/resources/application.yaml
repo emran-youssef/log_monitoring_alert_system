@@ -21,6 +21,7 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
 
+
   kafka:
     bootstrap-servers: localhost:9092   # where Kafka broker lives (same broker Wallet app uses)
     consumer:
@@ -28,6 +29,12 @@ spring:
       auto-offset-reset: earliest       # if no saved progress yet, start reading from the beginning of the topic
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer    # log lines have no key, but Kafka still needs a deserializer type
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer  # log line itself is plain text, so read it as a String
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+
 
 log:
   file:
@@ -38,31 +45,18 @@ log:
 classification:
   window-minutes: 5
   patterns:
-    WALLET_NOT_FOUND:
-      keyword: "walletnotfoundexception"
-      threshold: 3
-    USER_NOT_FOUND:
-      keyword: "usernotfoundexception"
-      threshold: 3
-    TRANSACTION_NOT_FOUND:
-      keyword: "transactionnotfoundexception"
-      threshold: 3
-    EMAIL_ALREADY_EXISTS:
-      keyword: "emailalreadyexistexception"
-      threshold: 5
-    SAME_WALLET_TRANSFER:
-      keyword: "samewallettransferexception"
-      threshold: 5
-    VALIDATION_FAILURE:
-      keyword: "methodargumentnotvalidexception"
-      threshold: 10
-    INTERNAL_ERROR:
-      keyword: "exception"
-      threshold: 2
+    WALLET_NOT_FOUND: { keyword: "walletnotfoundexception", threshold: 3 }
+    USER_NOT_FOUND: { keyword: "usernotfoundexception", threshold: 3 }
+    TRANSACTION_NOT_FOUND: { keyword: "transactionnotfoundexception", threshold: 3 }
+    HISTORY_NOT_FOUND: { keyword: "historynotfoundexception", threshold: 3 }
+    EMAIL_ALREADY_EXISTS: { keyword: "emailalreadyexistexception", threshold: 5 }
+    SAME_WALLET_TRANSFER: { keyword: "samewallettransferexception", threshold: 5 }
+    INSUFFICIENT_BALANCE: { keyword: "insufficientbalanceexception", threshold: 5 }
+    VALIDATION_FAILURE: { keyword: "methodargumentnotvalidexception", threshold: 10 }
+    INTERNAL_ERROR: { keyword: "exception", threshold: 2 }
 
 server:
   port: 8081
-
 
 logging:
   level:
