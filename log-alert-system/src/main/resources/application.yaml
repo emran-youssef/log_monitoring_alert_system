@@ -35,33 +35,29 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 
+classification:
+  window-minutes: 5
+  patterns:
+    WALLET_NOT_FOUND: { keyword: "wallet not found", threshold: 3 }
+    USER_NOT_FOUND: { keyword: "user not found", threshold: 3 }
+    TRANSACTION_NOT_FOUND: { keyword: "transaction not found", threshold: 3 }
+    HISTORY_NOT_FOUND: { keyword: "history not found ", threshold: 3 }
+    EMAIL_ALREADY_EXISTS: { keyword: "email already exist", threshold: 5 }
+    INSUFFICIENT_BALANCE: { keyword: "insufficient balance", threshold: 5 }
+    VALIDATION_FAILURE: { keyword: "method argument not valid", threshold: 10 }
+    SAME_WALLET_TRANSFER: { keyword: "same wallet transfer", threshold: 5 }
+    INTERNAL_ERROR: { keyword: "exception", threshold: 2 }
+
+logging:
+  level:
+    com.log_monitoring.log_alert_system.kafka.LogKafkaConsumer: DEBUG
+    org.apache.kafka.clients.consumer.ConsumerConfig: WARN
+
+server:
+  port: 8081
 
 log:
   file:
     path: logs/app.log
   monitoring:
     fixed-delay: 5000
-
-classification:
-  window-minutes: 5
-  patterns:
-    WALLET_NOT_FOUND: { keyword: "walletnotfoundexception", threshold: 3 }
-    USER_NOT_FOUND: { keyword: "usernotfoundexception", threshold: 3 }
-    TRANSACTION_NOT_FOUND: { keyword: "transactionnotfoundexception", threshold: 3 }
-    HISTORY_NOT_FOUND: { keyword: "historynotfoundexception", threshold: 3 }
-    EMAIL_ALREADY_EXISTS: { keyword: "emailalreadyexistexception", threshold: 5 }
-    SAME_WALLET_TRANSFER: { keyword: "samewallettransferexception", threshold: 5 }
-    INSUFFICIENT_BALANCE: { keyword: "insufficientbalanceexception", threshold: 5 }
-    VALIDATION_FAILURE: { keyword: "methodargumentnotvalidexception", threshold: 10 }
-    INTERNAL_ERROR: { keyword: "exception", threshold: 2 }
-
-server:
-  port: 8081
-
-logging:
-  level:
-    com:
-      log_monitoring:
-        log_alert_system:
-          services:
-            LogKafkaConsumer: DEBUG

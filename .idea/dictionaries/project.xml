@@ -2,6 +2,11 @@
   <dictionary name="project">
     <words>
       <w>emailalreadyexistexception</w>
+      <w>historynotfoundexception</w>
+      <w>insufficientbalanceexception</w>
+      <w>methodargumentnotvalidexception</w>
+      <w>samewallettransferexception</w>
+      <w>transactionnotfoundexception</w>
       <w>usernotfoundexception</w>
       <w>walletnotfoundexception</w>
     </words>

@@ -16,8 +16,10 @@ public class ClassificationService {
     private final ClassificationProperties properties;
 
     public String classify(String message){
-        if(message == null)
+        if(message == null) {
+            log.warn("log line hasn't been classified!");
             return null;
+        }
 
         String lowerMessage = message.toLowerCase();
 

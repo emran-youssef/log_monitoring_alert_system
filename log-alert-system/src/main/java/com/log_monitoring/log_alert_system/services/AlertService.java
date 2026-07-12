@@ -27,7 +27,6 @@ public class AlertService {
 
 
     public void checkAndAlert(EventAggregate event){
-
         //get the config object of the pattern so we can read its threshold
         PatternConfig config = classificationProperties.getPatterns().get(event.getPattern());
 
@@ -59,16 +58,13 @@ public class AlertService {
 
         alertRepository.save(alert);
 
+        // publish the event to kafka
+        alertEventPublisher.publish(alert);
+
         log.info("Incident opened for alert:{}", alert.getPattern());
-
-        alertEventPublisher.publish(alert);  // publish the event to kafka
-
         incidentService.openIncident(alert);
 
-
-
     }
-
 
     @Transactional
     public Optional<Alert> resolveAlert(Long id){

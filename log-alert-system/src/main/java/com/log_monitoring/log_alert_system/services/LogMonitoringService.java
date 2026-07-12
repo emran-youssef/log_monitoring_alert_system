@@ -29,7 +29,7 @@ public class LogMonitoringService {
 
     /// Log pattern 4 groups: timestamp, level, service (logger name), message
     private static final Pattern LOG_PATTERN = Pattern
-            .compile("^(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?) \\[.+?] (INFO|WARN|ERROR)\\s+(\\S+)\\s+-\\s+(.+)$");
+            .compile("^(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?) \\[.+?] (DEBUG|INFO|WARN|ERROR)\\s+(\\S+)\\s+-\\s+(.+)$");
 
     private static final DateTimeFormatter TIMESTAMP_FORMAT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
